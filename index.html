@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Převod teploty</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Převod teploty</h1>
+        <label for="conversion">Vyberte typ převodu:</label>
+        <select id="conversion">
+            <option value="c-to-f">Celsia → Fahrenheita</option>
+            <option value="f-to-c">Fahrenheita → Celsia</option>
+        </select>
+        <label for="temperature">Zadejte teplotu:</label>
+        <input type="number" id="temperature" placeholder="Zadejte teplotu">
+        <button onclick="convertTemperature()">Převést</button>
+        <div id="result"></div>
+    </div>
+    <script>
+        function convertTemperature() {
+            const conversionType = document.getElementById('conversion').value;
+            const inputTemp = document.getElementById('temperature').value;
+            const temperature = parseFloat(inputTemp);
+            const resultDiv = document.getElementById('result');
+
+            if (isNaN(temperature) || inputTemp === '') {
+                resultDiv.innerText = 'Prosím, zadejte platné číslo.';
+                return;
+            }
+
+            if (conversionType === 'c-to-f') {
+                if (temperature < -273.15) {
+                    resultDiv.innerText = 'Chyba: Zadaná hodnota je nižší než absolutní nula (-273.15 °C).';
+                    return;
+                }
+                const fahrenheit = (temperature * 9/5) + 32;
+                resultDiv.innerText = `Teplota ve Fahrenheitech: ${fahrenheit.toFixed(2)}°F`;
+            } else if (conversionType === 'f-to-c') {
+                const celsius = (temperature - 32) * 5/9;
+                if (celsius < -273.15) {
+                    resultDiv.innerText = 'Chyba: Výsledná hodnota je nižší než absolutní nula (-273.15 °C).';
+                    return;
+                }
+                resultDiv.innerText = `Teplota ve stupních Celsia: ${celsius.toFixed(2)}°C`;
+            }
+        }
+    </script>
+</body>
+</html>
